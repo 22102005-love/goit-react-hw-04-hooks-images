@@ -19,6 +19,7 @@ export default function Searchbar({ onSubmite }) {
     onSubmite(searchQuery);
     formReset();
   };
+
   const formReset = () => {
     setSearchQuery('');
   };

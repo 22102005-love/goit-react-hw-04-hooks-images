@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Modal from '../Modal/Modal';
-import s from './ImageGalleryItem.module.css';
+import s from './ImageGallery.module.css';
+
 export default function ImageGalleryItem({ src, srcForLarge }) {
   const [showModal, setShowModal] = useState(false);
 
