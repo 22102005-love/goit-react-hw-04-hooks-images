@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Searchbar from './components/Searchbar/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import LoadMoreBtn from './components/Button/Button';
@@ -12,20 +12,17 @@ export default function App() {
   const [isLoader, setIsLoader] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const queryForImages = searchQuery => {
+  useEffect(() => {
     if (!searchQuery) {
       return;
     }
-    setSearchQuery(searchQuery);
-    setImages([]);
     setIsLoader(true);
-
     api.fetchImagesWithQuery(searchQuery, page).then(newImages => {
-      setImages([...images, ...newImages.hits]);
+      setImages([...newImages.hits]);
       setPage(page => page + 1);
       setIsLoader(false);
     });
-  };
+  }, [searchQuery]);
 
   const handleLoadMoreImages = () => {
     setIsLoader(true);
@@ -38,7 +35,7 @@ export default function App() {
 
   return (
     <div>
-      <Searchbar onSubmite={queryForImages} />
+      <Searchbar onSubmite={setSearchQuery} />
       <ImageGallery images={images} />
       {isLoader && <Spiner />}
       {images.length > 0 && <LoadMoreBtn onClick={handleLoadMoreImages} />}
